@@ -1,1 +1,1 @@
-sudo apt install libglfw3-dev libglfw3
+sudo apt install cmake libglfw3-dev libglfw3 
