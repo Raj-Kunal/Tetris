@@ -1,3 +1,12 @@
+/**
+ * @file logic.cpp
+ * @brief Main game logic required for basic tasks
+ * @version 0.1
+ * @date 2021
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "logic.h"
 using namespace std;
 
@@ -5,6 +14,7 @@ const int Piece::NumStates_ = 4;
 /* 
     Contains possible rotations permutations
  */
+#pragma region 
 const vector<vector<pair<int, int>>> Piece::KicksIRight_ = {
     {{0, 0}, {0, -2}, {0, 1}, {1, -2}, {-2, 1}},
     {{0, 0}, {0, -1}, {0, 2}, {-2, -1}, {1, 2}},
@@ -28,7 +38,7 @@ const vector<vector<pair<int, int>>> Piece::KicksOtherLeft_ = {
     {{0, 0}, {0, -1}, {1, 1}, {-2, 0}, {-2, 1}},
     {{0, 0}, {0, -1}, {-1, -1}, {2, 0}, {2, -1}},
     {{0, 0}, {0, -1}, {1, -1}, {-2, 0}, {-2, -1}}};
-
+#pragma endregion 
 Piece::Piece(PieceKind kind) : kind_(kind), color_(static_cast<TileColor>(kind)), state_(0)
 {
     TileColor e = kEmpty;

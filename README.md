@@ -20,7 +20,7 @@ Binaries can be downloaded from [here]() for windows users
 
 # About
 ## Code Structure
-The game logic is implemented in `tetris.cpp`. The exact game rules and mechanics are figured from several wikis about Tetris.
+The game logic is implemented in `logic.cpp`. The exact game rules and mechanics are used.
 
 Class `Piece` represents a game piece, it defines how a piece rotates and kicks off obstacles. 
 
