@@ -169,6 +169,7 @@ void Piece::rotate(Rotation rotation)
     else if (state_ == NumStates_)
         state_ = 0;
 }
+/* Assigning rotation state */
 const vector<pair<int, int>> Piece::kicks(Rotation rotation) const
 {
     switch (rotation)
@@ -184,12 +185,13 @@ const int Board::RowsAbove_ = 2;
 
 Board::Board(int nRows, int nCols) : nRows(nRows), nCols(nCols),
                                      tiles_((nRows + RowsAbove_) * nCols, kEmpty), piece_(kNone) {}
-
+/*  Just Clears the board */
 void Board::clear()
 {
     fill(tiles_.begin(), tiles_.end(), kEmpty);
 }
 
+/* Fix the position of pieces after reaching bottom */
 bool Board::frozePiece()
 {
     auto shape = piece_.shape();
@@ -213,7 +215,7 @@ bool Board::frozePiece()
     piece_ = Piece(kNone);
     return belowSkyline;
 }
-
+/*  Random piece spawning */
 bool Board::spawnPiece(PieceKind kind)
 {
     piece_ = Piece(kind);
@@ -233,7 +235,7 @@ bool Board::spawnPiece(PieceKind kind)
     updateGhostRow();
     return true;
 }
-
+/* Horizontal Movement control */
 bool Board::moveHorizontal(int dCol)
 {
     if (isPositionPossible(row_, col_ + dCol, piece_))
@@ -246,6 +248,7 @@ bool Board::moveHorizontal(int dCol)
     return false;
 }
 
+/* Vertical Movement control */
 bool Board::moveVertical(int dRow)
 {
     if (isPositionPossible(row_ + dRow, col_, piece_))
@@ -256,7 +259,7 @@ bool Board::moveVertical(int dRow)
 
     return false;
 }
-
+/* Update rotational state */
 bool Board::rotate(Rotation rotation)
 {
     if (piece_.kind() == kPieceO || piece_.kind() == kNone)
@@ -281,19 +284,19 @@ bool Board::rotate(Rotation rotation)
 
     return false;
 }
-
+/* Manual piece location choosing */
 int Board::hardDrop()
 {
     int rowsPassed = ghostRow_ - row_;
     row_ = ghostRow_;
     return rowsPassed;
 }
-
+/* Depedency function for froze function */
 bool Board::isOnGround() const
 {
     return !isPositionPossible(row_ + 1, col_, piece_);
 }
-
+/* Clear lines - depedency function for score system */
 void Board::clearLines()
 {
     if (linesToClear_.empty())
@@ -302,12 +305,12 @@ void Board::clearLines()
     linesToClear_.clear();
     tiles_ = tilesAfterClear_;
 }
-
+/* Sets color for required tile */
 void Board::setTile(int row, int col, TileColor color)
 {
     tiles_[(row + RowsAbove_) * nCols + col] = color;
 }
-
+/* check whether piece color is filled */
 bool Board::isTileFilled(int row, int col) const
 {
     if (col < 0 || col >= nCols || row < -RowsAbove_ || row >= nRows)
@@ -315,7 +318,7 @@ bool Board::isTileFilled(int row, int col) const
 
     return tileAt(row, col) != kEmpty;
 }
-
+/* Master logic - possible position */
 bool Board::isPositionPossible(int row, int col, const Piece &piece) const
 {
     if (piece.kind() == kNone)
@@ -343,7 +346,7 @@ void Board::updateGhostRow()
     while (isPositionPossible(ghostRow_ + 1, col_, piece_))
         ++ghostRow_;
 }
-
+/* Depedency function to score system */
 void Board::findLinesToClear()
 {
     linesToClear_.clear();
@@ -386,7 +389,11 @@ void Board::findLinesToClear()
 
     fill(tilesAfterClear_.begin(), tilesAfterClear_.begin() + linesCleared * nCols, kEmpty);
 }
+/* 
+@parameters game various parameters
+@variables various game defined variables
 
+ */
 const int Tetris::kLinesToClearPerLevel_ = 10;
 const int Tetris::kMaxLevel_ = 15;
 const double Tetris::kMoveDelay_ = 0.05;
@@ -408,7 +415,7 @@ Tetris::Tetris(Board &board, double timeStep, unsigned int randomSeed) : board_(
     copy(bag_.begin(), bag_.begin() + N_Pieces, bag_.begin() + N_Pieces);
     restart(1);
 }
-
+/* Restart Level / Game */
 void Tetris::restart(int level)
 {
     board_.clear();
@@ -438,7 +445,7 @@ void Tetris::restart(int level)
 
     spawnPiece();
 }
-
+/* Update the game visuals */
 void Tetris::update(bool softDrop, bool moveRight, bool moveLeft)
 {
     if (pausedForLinesClear_)
@@ -526,7 +533,10 @@ void Tetris::update(bool softDrop, bool moveRight, bool moveLeft)
 
     checkLock();
 }
-
+/* 
+    Auxillary functions for the game
+    --- These are the helping functions that are required 
+ */
 void Tetris::moveHorizontal(int dCol)
 {
     if (board_.moveHorizontal(dCol) && isOnGround_)
