@@ -28,7 +28,7 @@ Class `Board` represents the geometric state of the board. It stores which tiles
 
 Building
 --------
-Make sure you install `GLFW3`, `GLM` and `freetype2` correctly.  
+Make sure you install `GLFW3`,`GLEW`, `GLM` and `freetype2` correctly.  
 You can compile build files in your system by installing cmakeand using following commands:
 ```cmake
 cd path/to/Tetris-clone/
